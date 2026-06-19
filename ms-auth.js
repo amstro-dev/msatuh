@@ -135,7 +135,9 @@ var MsAuth = (function () {
     var token = sessionStorage.getItem(KEY_TOKEN);
     if (!token) return {};
     try {
-      return JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+      var base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      var bytes = Uint8Array.from(atob(base64), function (c) { return c.charCodeAt(0); });
+      return JSON.parse(new TextDecoder().decode(bytes));
     } catch (e) { return {}; }
   }
 
