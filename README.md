@@ -5,7 +5,7 @@ Librería JavaScript sin dependencias para autenticación con Azure AD (Microsof
 ## Uso rápido
 
 ```html
-<!-- Cargar desde CDN (una vez publicado el repo) -->
+<!-- Cargar desde CDN -->
 <script src="https://cdn.jsdelivr.net/gh/amstro-jpa/ms-auth@main/ms-auth.js"></script>
 ```
 
