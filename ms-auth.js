@@ -28,7 +28,7 @@ var MsAuth = (function () {
     if (!code) return;
     localStorage.setItem(KEY_CODE, code);
     if (window.opener) {
-      try { window.opener.postMessage({ type: KEY_CODE, code: code }, '*'); } catch (e) {}
+      try { window.opener.postMessage({ type: KEY_CODE, code: code }, window.location.origin); } catch (e) {}
     }
     window.history.replaceState({}, '', window.location.pathname);
     window.close();
@@ -89,6 +89,7 @@ var MsAuth = (function () {
       }
 
       function onMsg(ev) {
+        if (ev.origin !== window.location.origin) return;
         if (!ev.data || ev.data.type !== KEY_CODE) return;
         handleCode(ev.data.code);
       }
