@@ -24,12 +24,26 @@ var MsAuthUI = (function () {
 
   var CSS = [
     // Overlay
-    '#msauth-overlay{position:fixed;inset:0;background:#0f1a0f;z-index:9999;display:flex;align-items:center;justify-content:center}',
-    // Card
-    '#msauth-box{background:#1e2e1e;border:1px solid rgba(191,232,112,.22);border-radius:14px;padding:40px 44px;width:100%;max-width:360px;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;color:#f0f5e8;box-sizing:border-box}',
-    // Badge AMSTRO
-    '#msauth-badge{background:#BFE870;color:#1B281B;font-size:13px;font-weight:700;padding:5px 12px;border-radius:5px;display:inline-block;margin-bottom:24px}',
-    '#msauth-box h2{font-size:16px;font-weight:700;color:#fff;margin:0 0 6px}',
+    '#msauth-overlay{position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,#2e4a1e 0%,#1B281B 40%,#0a1209 100%),radial-gradient(ellipse at 100% 100%,#243d18 0%,transparent 50%);background-blend-mode:screen;z-index:9999;display:flex;align-items:center;justify-content:center}',
+    // Card — frosted glass effect to stand out against the gradient
+    '#msauth-box{background:rgba(12,22,12,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(191,232,112,.22);border-radius:16px;padding:44px 44px 40px;width:100%;max-width:360px;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;color:#f0f5e8;box-sizing:border-box;box-shadow:0 8px 40px rgba(0,0,0,.5),0 1px 0 rgba(191,232,112,.08) inset}',
+    // Decorative arcs — both circles travel together as one unified graphic element.
+    // The wrapper centers its midpoint on each screen corner in turn (so only quadrant arcs are visible).
+    // The two inner circles are offset from each other to recreate the intersecting-arc look from the brandbook.
+    // Circles are 900px — only a small arc is visible when centered at each corner.
+    // No fill, just stroke lines like the brandbook cover.
+    '@keyframes msauth-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}',
+    '#msauth-arcs,#msauth-arcs2{position:fixed;width:900px;height:900px;pointer-events:none;z-index:10000}',
+    '#msauth-arcs{top:-450px;left:-450px}',
+    '#msauth-arcs2{bottom:-450px;right:-450px}',
+    '#msauth-spin{position:absolute;top:0;left:0;width:900px;height:900px;animation:msauth-spin 18s linear infinite}',
+    '#msauth-spin2{position:absolute;top:0;left:0;width:900px;height:900px;animation:msauth-spin 24s linear infinite reverse}',
+    '#msauth-arc,#msauth-arc3{position:absolute;top:0;left:0;width:900px;height:900px;border:1.5px solid rgba(191,232,112,.5);border-radius:50%}',
+    '#msauth-arc2,#msauth-arc4{position:absolute;top:-100px;left:120px;width:900px;height:900px;border:1.5px solid rgba(191,232,112,.3);border-radius:50%}',
+    // Background watermark — white logo, screen blend makes the PNG background disappear
+    '#msauth-content{display:flex;flex-direction:column;align-items:center;gap:24px;width:100%;max-width:360px}',
+    '#msauth-content img{width:180px;opacity:.9;user-select:none;-webkit-user-drag:none}',
+    '#msauth-box h2{font-size:15px;font-weight:600;color:#fff;margin:0 0 5px}',
     '#msauth-box p{font-size:11px;color:rgba(240,245,232,.35);margin:0 0 28px}',
     // Microsoft button
     '#msauth-btn{width:100%;background:#fff;color:#1b1b1b;border:1.5px solid #e0e0e0;border-radius:7px;padding:11px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:10px;box-sizing:border-box}',
@@ -57,12 +71,16 @@ var MsAuthUI = (function () {
     var div = document.createElement('div');
     div.id = 'msauth-overlay';
     div.innerHTML =
-      '<div id="msauth-box">'
-      + '<div id="msauth-badge">AMSTRO</div>'
+      '<div id="msauth-arcs"><div id="msauth-spin"><div id="msauth-arc"></div><div id="msauth-arc2"></div></div></div>'
+      + '<div id="msauth-arcs2"><div id="msauth-spin2"><div id="msauth-arc3"></div><div id="msauth-arc4"></div></div></div>'
+      + '<div id="msauth-content">'
+      + '<img src="Logo Amstro_Logo verde2.png" alt="AMSTRO">'
+      + '<div id="msauth-box">'
       + '<h2>' + appName + '</h2>'
       + '<p>Accede con tu cuenta corporativa de Microsoft</p>'
       + '<button id="msauth-btn">' + MS_ICON + ' Iniciar sesión con Microsoft</button>'
       + '<div id="msauth-err"></div>'
+      + '</div>'
       + '</div>';
     document.body.appendChild(div);
   }
