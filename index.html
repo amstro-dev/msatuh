@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Preview</title>
+</head>
+<body>
+
+  <!-- Mock de MsAuth para que ms-auth-ui.js no falle sin credenciales reales -->
+  <script>
+    var MsAuth = {
+      isAuthenticated: function () { return false; },
+      getClaims: function () { return {}; },
+      getToken: function () {
+        return new Promise(function (_, reject) {
+          setTimeout(function () { reject(new Error('Modo preview — sin autenticación real')); }, 1500);
+        });
+      },
+      logout: function () {}
+    };
+  </script>
+
+  <script src="ms-auth-ui.js"></script>
+
+  <script>
+    MsAuthUI.init({ appName: 'Mi Aplicación' });
+  </script>
+</body>
+</html>

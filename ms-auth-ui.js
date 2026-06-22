@@ -67,14 +67,14 @@ var MsAuthUI = (function () {
     document.head.appendChild(s);
   }
 
-  function _buildOverlay(appName) {
+  function _buildOverlay(appName, logoSrc) {
     var div = document.createElement('div');
     div.id = 'msauth-overlay';
     div.innerHTML =
       '<div id="msauth-arcs"><div id="msauth-spin"><div id="msauth-arc"></div><div id="msauth-arc2"></div></div></div>'
       + '<div id="msauth-arcs2"><div id="msauth-spin2"><div id="msauth-arc3"></div><div id="msauth-arc4"></div></div></div>'
       + '<div id="msauth-content">'
-      + '<img src="Logo Amstro_Logo verde2.png" alt="AMSTRO">'
+      + (logoSrc ? '<img src="' + logoSrc + '" alt="AMSTRO">' : '<div id="msauth-logo" style="font-size:22px;font-weight:700;color:#BFE870;letter-spacing:2px">AMSTRO</div>')
       + '<div id="msauth-box">'
       + '<h2>' + appName + '</h2>'
       + '<p>Accede con tu cuenta corporativa de Microsoft</p>'
@@ -113,6 +113,7 @@ var MsAuthUI = (function () {
   function init(config, options) {
     options = options || {};
     var appName = config.appName || document.title || 'AMSTROQACALL';
+    var logoSrc = config.logoSrc || '';
 
     _injectStyles();
 
@@ -123,7 +124,7 @@ var MsAuthUI = (function () {
       return;
     }
 
-    _buildOverlay(appName);
+    _buildOverlay(appName, logoSrc);
 
     document.getElementById('msauth-btn').addEventListener('click', async function () {
       var btn = document.getElementById('msauth-btn');
