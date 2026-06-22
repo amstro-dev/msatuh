@@ -106,7 +106,9 @@ var MsAuth = (function () {
       if (earlyCode) { localStorage.removeItem(KEY_CODE); handleCode(earlyCode); }
 
       var timer = setInterval(function () {
-        if (!popup.closed) return;
+        var closed = false;
+        try { closed = popup.closed; } catch (e) { closed = true; }
+        if (!closed) return;
         clearInterval(timer);
         // Give the storage event time to arrive before rejecting.
         setTimeout(function () {
